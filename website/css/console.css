@@ -337,7 +337,6 @@ input:checked + .toggle-slider:before {
   transform: translateX(20px);
 }
 
-/* 5. Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -346,11 +345,25 @@ input:checked + .toggle-slider:before {
   font-family: inherit;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   border: none;
   text-decoration: none;
   position: relative;
   z-index: 1;
+  user-select: none;
+}
+
+.btn svg {
+  pointer-events: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 .btn-primary {

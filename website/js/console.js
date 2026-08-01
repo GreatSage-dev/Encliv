@@ -98,12 +98,24 @@ async function checkConnection() {
 // ─── Call TEE ───────────────────────────────────────────────
 
 async function callTEE(payload) {
-    const res = await fetch(`${TEE_URL}/action`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
-    return await res.json();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    try {
+        const res = await fetch(`${TEE_URL}/action`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        return await res.json();
+    } catch (err) {
+        clearTimeout(timeoutId);
+        if (err.name === 'AbortError') {
+            throw new Error('TEE request timed out (4s). Ensure TEE server is active.');
+        }
+        throw err;
+    }
 }
 
 // ─── Forms Setup ─────────────────────────────────────────────
