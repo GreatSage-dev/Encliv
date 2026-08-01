@@ -24,14 +24,27 @@
             }, { threshold: 0.1 });
             
             document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+
+            // Generate particles
+            const particlesContainer = document.querySelector('.particles-container');
+            if (particlesContainer) {
+                for (let i = 0; i < 30; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    particle.style.left = Math.random() * 100 + 'vw';
+                    particle.style.top = Math.random() * 100 + 'vh';
+                    particle.style.animationDuration = (Math.random() * 20 + 10) + 's';
+                    particle.style.animationDelay = '-' + (Math.random() * 20) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
         });
     </script>
 </head>
 <body>
 
-    <!-- Light Rays and Particles -->
-    <div class="light-rays"></div>
-    <div class="particles"></div>
+    <!-- Particles -->
+    <div class="particles-container"></div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -57,7 +70,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero section">
+    <header class="hero section section-hero">
         <div class="container text-center">
             <div class="section-label animate-on-scroll">The security first platform</div>
             <h1 class="hero-title animate-on-scroll">Policy-Gated Agent Authorization on Flare TEE</h1>
@@ -122,19 +135,25 @@
             <h2 class="section-title animate-on-scroll">Spot violations before they hit chain</h2>
             <div class="arch-flow">
                 <div class="glass-card flow-card animate-on-scroll">
-                    <div class="flow-number">01</div>
+                    <div class="flow-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg>
+                    </div>
                     <h3 class="card-title">Agent Request</h3>
                     <p class="card-desc">AI agent sends a signed transaction request with ECDSA identity proof and incrementing nonce</p>
                 </div>
                 <div class="flow-arrow animate-on-scroll" style="transition-delay: 0.1s;">→</div>
                 <div class="glass-card flow-card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="flow-number">02</div>
+                    <div class="flow-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+                    </div>
                     <h3 class="card-title">TEE Policy Check</h3>
                     <p class="card-desc">Inside the sealed enclave: verify caller → read on-chain policy → evaluate spend caps, allowlists, time windows</p>
                 </div>
                 <div class="flow-arrow animate-on-scroll" style="transition-delay: 0.3s;">→</div>
                 <div class="glass-card flow-card animate-on-scroll" style="transition-delay: 0.4s;">
-                    <div class="flow-number">03</div>
+                    <div class="flow-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5"><path d="M22 2L11 13"/><path d="M22 2L15 22l-4-9-9-4z"/></svg>
+                    </div>
                     <h3 class="card-title">Sign or Refuse</h3>
                     <p class="card-desc">Approved requests are signed and broadcast to chain. Violations produce a structured refusal with reason code</p>
                 </div>
@@ -151,32 +170,44 @@
             <h2 class="section-title animate-on-scroll">More than a wallet guard</h2>
             <div class="features-grid">
                 <div class="glass-card feature-card animate-on-scroll">
-                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="11" r="2"/><path d="M12 13v3"/><path d="M10.5 16h3"/></svg>
+                    </div>
                     <h3 class="card-title">In-Enclave Keygen</h3>
                     <p class="card-desc">Private key generated inside the TEE at boot using hardware entropy. Never imported, exported, logged, or exposed to any external process.</p>
                 </div>
                 <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.1s;">
-                    <div class="feature-icon">⛓️</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg>
+                    </div>
                     <h3 class="card-title">On-Chain Policy</h3>
                     <p class="card-desc">Spend caps, allowlists, and time windows stored on-chain in EnclivPolicyRegistry. Publicly verifiable and tamper-evident.</p>
                 </div>
                 <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="feature-icon">🔐</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12C2 6.5 6.5 2 12 2a10 10 0 0 1 8 4"/><path d="M5 19.5C5.5 18 6 15 6 12c0-3.5 2.5-6 6-6a6 6 0 0 1 5 2.5"/><path d="M8.5 22c.3-2 .5-5 .5-8 0-2.2 1.3-4 3-4s3 1.8 3 4c0 2-.3 4-.5 5.5"/><path d="M12 18c0-1.7.2-3.3.5-5"/></svg>
+                    </div>
                     <h3 class="card-title">Caller Authentication</h3>
                     <p class="card-desc">ECDSA signature recovery verifies every request comes from the registered agent owner. Impersonation is cryptographically impossible.</p>
                 </div>
                 <div class="glass-card feature-card animate-on-scroll">
-                    <div class="feature-icon">🔄</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M14.5 9l-1.5 1.5L14.5 12"/><path d="M13 10.5a2.5 2.5 0 1 1-2 4"/></svg>
+                    </div>
                     <h3 class="card-title">Replay Protection</h3>
                     <p class="card-desc">Incrementing nonces bound to the enclave address prevent captured requests from being resubmitted — even after TEE restart.</p>
                 </div>
                 <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.1s;">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="16" rx="1"/><path d="M3 4l6 4 6-2 6-2"/></svg>
+                    </div>
                     <h3 class="card-title">On-Chain Spend Tracking</h3>
                     <p class="card-desc">Spend counters live on-chain, not in TEE memory. Enclave restarts cannot silently zero your spend counters or bypass caps.</p>
                 </div>
                 <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.2s;">
-                    <div class="feature-icon">🌐</div>
+                    <div class="feature-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(124,58,237,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8.5" y1="7.5" x2="10" y2="15.5"/><line x1="15.5" y1="7.5" x2="14" y2="15.5"/><line x1="9" y1="6" x2="15" y2="6"/></svg>
+                    </div>
                     <h3 class="card-title">Multi-Agent Registry</h3>
                     <p class="card-desc">Any agent can register with its own independent policy. Encliv is infrastructure, not a single-use wallet — designed for fleet-scale deployment.</p>
                 </div>
@@ -218,7 +249,7 @@
                 <div class="footer-links">
                     <a href="https://coston2-explorer.flare.network/address/0xdE9a752440d0ba74FDC66F647c4a8437CA8C87De#code" target="_blank">Contract Address</a>
                     <a href="console.html">Console</a>
-                    <a href="#how-it-works">How It Works</a>
+                    <a href="#architecture">How It Works</a>
                 </div>
             </div>
             <div class="footer-bottom">
