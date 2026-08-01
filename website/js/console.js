@@ -3,7 +3,10 @@
    Connects to the TEE extension at localhost:3001
    ═══════════════════════════════════════════════════════════════ */
 
-const TEE_URL = 'http://localhost:3001';
+// Dynamic TEE URL: tries local TEE first if on localhost, otherwise uses hosted serverless API
+let TEE_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://localhost:3001'
+    : `${window.location.origin}/api`;
 
 // ─── State ──────────────────────────────────────────────────
 
@@ -50,7 +53,16 @@ function setupNavigation() {
 
 async function checkConnection() {
     try {
-        const res = await fetch(`${TEE_URL}/health`);
+        let res;
+        try {
+            res = await fetch(`${TEE_URL}/health`);
+        } catch {
+            // Fallback to hosted Vercel serverless API if localhost is unreachable
+            if (TEE_URL !== `${window.location.origin}/api`) {
+                TEE_URL = `${window.location.origin}/api`;
+                res = await fetch(`${TEE_URL}/health`);
+            }
+        }
         const data = await res.json();
 
         if (!state.connected) {
@@ -82,16 +94,9 @@ async function checkConnection() {
         statusEl.innerHTML = `<span class="status-dot offline"></span><span>TEE Offline</span>`;
         $('#metricStatus').textContent = 'Offline';
         $('#metricStatus').style.color = '#f87171';
-
-        const isHttps = window.location.protocol === 'https:';
-        if (isHttps) {
-            addLog('error', `Cannot reach TEE at ${TEE_URL} from HTTPS Vercel. Allow 'Insecure content' in Chrome site settings or run locally.`);
-        } else {
-            addLog('error', `Cannot reach TEE at ${TEE_URL}. Ensure TEE server is running on port 3001.`);
-        }
+        addLog('error', `Cannot reach TEE server. Retrying...`);
     } finally {
-        // Automatically check connection status every 4 seconds
-        setTimeout(checkConnection, 4000);
+        setTimeout(checkConnection, 5000);
     }
 }
 
