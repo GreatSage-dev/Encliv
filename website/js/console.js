@@ -53,6 +53,10 @@ async function checkConnection() {
         const res = await fetch(`${TEE_URL}/health`);
         const data = await res.json();
 
+        if (!state.connected) {
+            addLog('info', `Connected to TEE. Enclave Address: ${data.address}`);
+        }
+
         state.connected = true;
         state.enclaveAddress = data.address;
 
@@ -62,8 +66,6 @@ async function checkConnection() {
         $('#enclaveAddr').textContent = data.address;
         $('#metricStatus').textContent = 'Online';
         $('#metricStatus').style.color = '#34d399';
-
-        addLog('info', `Connected to TEE. Enclave Address: ${data.address}`);
 
         // Fetch current expected nonce for default demo agent
         try {
@@ -75,11 +77,21 @@ async function checkConnection() {
             }
         } catch {}
     } catch (e) {
+        state.connected = false;
         const statusEl = $('#teeStatus');
         statusEl.innerHTML = `<span class="status-dot offline"></span><span>TEE Offline</span>`;
         $('#metricStatus').textContent = 'Offline';
         $('#metricStatus').style.color = '#f87171';
-        addLog('error', `Cannot reach TEE at ${TEE_URL}. Start the TEE extension first.`);
+
+        const isHttps = window.location.protocol === 'https:';
+        if (isHttps) {
+            addLog('error', `Cannot reach TEE at ${TEE_URL} from HTTPS Vercel. Allow 'Insecure content' in Chrome site settings or run locally.`);
+        } else {
+            addLog('error', `Cannot reach TEE at ${TEE_URL}. Ensure TEE server is running on port 3001.`);
+        }
+    } finally {
+        // Automatically check connection status every 4 seconds
+        setTimeout(checkConnection, 4000);
     }
 }
 
