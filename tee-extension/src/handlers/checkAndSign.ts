@@ -31,6 +31,11 @@ async function withAgentLock<T>(agentId: string, fn: () => Promise<T>): Promise<
   }
 }
 
+export function getAgentNonce(agentId: string): number {
+  const last = nonceStore.get(agentId);
+  return last === undefined ? 0 : last + 1;
+}
+
 export async function handleCheckAndSign(request: CheckAndSignRequest): Promise<SignedTransactionResult | RefusalResult> {
   console.log('[checkAndSign] Incoming request:', JSON.stringify(request));
   
@@ -92,7 +97,7 @@ export async function handleCheckAndSign(request: CheckAndSignRequest): Promise<
       const lastNonce = nonceStore.get(request.agentId);
       const expectedNonce = lastNonce === undefined ? 0 : lastNonce + 1;
       if (request.nonce < expectedNonce) {
-        return { success: false, reason: 'REPLAY_DETECTED', details: `Expected nonce >= ${expectedNonce}, got ${request.nonce}` };
+        return { success: false, reason: 'REPLAY_DETECTED', details: `Expected nonce ${expectedNonce}, got ${request.nonce}` };
       }
 
       // C2 Fix: Add pending spends to on-chain amount for accurate cap check

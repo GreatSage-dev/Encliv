@@ -10,7 +10,7 @@ dotenv.config();
 import express, { Request, Response } from 'express';
 import { keyManager } from './crypto/keyManager.js';
 import { handleGenerate } from './handlers/generate.js';
-import { handleCheckAndSign } from './handlers/checkAndSign.js';
+import { handleCheckAndSign, getAgentNonce } from './handlers/checkAndSign.js';
 import { CheckAndSignRequest } from './utils/types.js';
 
 const app = express();
@@ -54,6 +54,11 @@ app.post('/action', async (req: Request, res: Response) => {
       const result = handleGenerate();
       return res.json(result);
     } 
+
+    if (instruction === 'GET_NONCE') {
+      const nonce = getAgentNonce(payload.agentId || '');
+      return res.json({ success: true, nonce });
+    }
     
     if (instruction === 'CHECK_AND_SIGN') {
       const result = await handleCheckAndSign(payload as CheckAndSignRequest);

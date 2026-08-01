@@ -64,6 +64,16 @@ async function checkConnection() {
         $('#metricStatus').style.color = '#34d399';
 
         addLog('info', `Connected to TEE. Enclave Address: ${data.address}`);
+
+        // Fetch current expected nonce for default demo agent
+        try {
+            const demoAgentId = hashString('demo-agent-1');
+            const nonceRes = await callTEE({ instruction: 'GET_NONCE', agentId: demoAgentId });
+            if (nonceRes.success && typeof nonceRes.nonce === 'number') {
+                state.currentNonce = nonceRes.nonce;
+                if ($('#txNonce')) $('#txNonce').value = state.currentNonce;
+            }
+        } catch {}
     } catch (e) {
         const statusEl = $('#teeStatus');
         statusEl.innerHTML = `<span class="status-dot offline"></span><span>TEE Offline</span>`;
@@ -195,10 +205,11 @@ function setupForms() {
 
                 // Auto-fix nonce if stale (so judges don't get stuck)
                 if (result.reason === 'REPLAY_DETECTED' && result.details) {
-                    const match = result.details.match(/Expected nonce (\d+)/);
+                    const match = result.details.match(/Expected nonce (?:>= )?(\d+)/);
                     if (match) {
                         state.currentNonce = parseInt(match[1]);
                         $('#txNonce').value = state.currentNonce;
+                        addLog('info', `Nonce auto-synced to ${state.currentNonce}. Re-try transaction.`);
                     }
                 }
             }
