@@ -10,18 +10,31 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
-    <script src="js/main.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+        });
+    </script>
 </head>
 <body>
 
-    <!-- Dot Grid Background -->
-    <div class="dot-grid"></div>
+    <!-- Light Rays and Particles -->
+    <div class="light-rays"></div>
+    <div class="particles"></div>
 
     <!-- Navigation -->
-    <nav id="navbar" class="navbar">
+    <nav class="navbar">
         <div class="container nav-container">
             <a href="#" class="logo">
                 <div class="logo-mark">
@@ -32,482 +45,184 @@
                 <span>Encliv</span>
             </a>
             <div class="nav-links">
-                <a href="#how-it-works">How It Works</a>
-                <a href="#features">Features</a>
+                <a href="#problem">The Problem</a>
                 <a href="#architecture">Architecture</a>
-                <a href="#integration">Integration</a>
+                <a href="#features">Features</a>
+                <a href="#demo">Live Demo</a>
             </div>
-            <a href="console.html" class="btn btn-nav">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line>
-                </svg>
+            <a href="console.html" class="btn btn-primary">
                 Open Console
             </a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-glow hero-glow-1"></div>
-        <div class="hero-glow hero-glow-2"></div>
-        <div class="container hero-container">
-            <div class="hero-badge animate-on-scroll">
-                <span class="badge-dot"></span>
-                Built on Flare Confidential Compute
-            </div>
-            <h1 class="hero-title animate-on-scroll">The Agent Authorization<br>Framework</h1>
+    <header class="hero section">
+        <div class="container text-center">
+            <div class="section-label animate-on-scroll">The security first platform</div>
+            <h1 class="hero-title animate-on-scroll">Policy-Gated Agent Authorization on Flare TEE</h1>
             <p class="hero-subtitle animate-on-scroll">
                 Enforce on-chain policy inside a sealed TEE before any signature is created. 
                 The wallet key never leaves the enclave — even the agent can't extract it.
             </p>
             <div class="hero-actions animate-on-scroll">
-                <a href="console.html" class="btn btn-primary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                <a href="console.html" class="btn btn-primary btn-lg">
                     Open Console
                 </a>
-                <a href="#how-it-works" class="btn btn-outline">Read Docs</a>
-            </div>
-            <div class="hero-stack animate-on-scroll">
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    Solidity
-                </div>
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-                    TypeScript
-                </div>
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    Flare TEE
-                </div>
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                    Coston2
-                </div>
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                    ethers.js
-                </div>
-                <div class="stack-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    OpenZeppelin
-                </div>
+                <a href="https://coston2-explorer.flare.network/address/0xdE9a752440d0ba74FDC66F647c4a8437CA8C87De#code" target="_blank" class="btn btn-outline btn-lg">
+                    View Contract
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Problem → Solution -->
-    <section id="how-it-works" class="section">
-        <div class="container">
-            <div class="section-label animate-on-scroll">• THE PROBLEM</div>
-            <h2 class="section-title animate-on-scroll">Simplify agent security with<br>policy-gated authorization</h2>
-            <div class="split-layout">
-                <div class="split-text animate-on-scroll">
-                    <p class="split-desc">AI agents holding private keys are a ticking time bomb. A single prompt injection, a compromised dependency, or a logic bug — and the agent signs away everything. There's no spending limit, no recipient check, no time boundary. Just raw key access with zero guardrails.</p>
-                    <div class="check-list">
-                        <div class="check-item">
-                            <div class="check-icon danger">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </div>
-                            <span>Prompt injection drains agent wallets instantly</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-icon danger">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </div>
-                            <span>Private keys sit in agent process memory</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-icon danger">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                            </div>
-                            <span>No spending limits or recipient controls</span>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-icon success">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                            </div>
-                            <span>Encliv enforces policy before any signature</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="split-visual animate-on-scroll delay-2">
-                    <div class="preview-card">
-                        <div class="preview-header">
-                            <div class="preview-dots">
-                                <span></span><span></span><span></span>
-                            </div>
-                            <span class="preview-label">EnclivPolicyRegistry.sol</span>
-                        </div>
-                        <div class="preview-body">
-                            <pre><code><span class="code-keyword">struct</span> <span class="code-type">Policy</span> {
-    <span class="code-type">uint256</span> spendCap;
-    <span class="code-type">address[]</span> allowlist;
-    <span class="code-type">uint64</span>  timeWindowStart;
-    <span class="code-type">uint64</span>  timeWindowEnd;
-    <span class="code-type">bool</span>    requiresSecondApproval;
-    <span class="code-type">uint256</span> secondApprovalThreshold;
-}
-
-<span class="code-comment">// Only the TEE enclave can record spend</span>
-<span class="code-keyword">function</span> <span class="code-func">recordSpend</span>(
-    <span class="code-type">bytes32</span> agentId,
-    <span class="code-type">uint256</span> amount
-) <span class="code-keyword">external</span> {
-    <span class="code-keyword">require</span>(
-        msg.sender == agent.enclaveAddress,
-        <span class="code-string">"Only enclave"</span>
-    );
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Logos / Trust Bar -->
+    <section class="trust-bar section">
+        <div class="container text-center animate-on-scroll">
+            <p class="trust-text">Built on Flare • FTSO v2 • Coston2 • TEE Enclave</p>
         </div>
     </section>
 
-    <!-- How It Works — Faster. Smarter. -->
-    <section class="section section-alt">
+    <div class="divider"></div>
+
+    <!-- Problem Section -->
+    <section id="problem" class="section">
         <div class="container">
             <div class="text-center">
-                <h2 class="section-title animate-on-scroll">Faster. Smarter. Safer.</h2>
-                <p class="section-desc animate-on-scroll">The entire check-sign-broadcast loop runs inside a Trusted Execution Environment. No external party, not even the agent operator, ever touches the private key.</p>
+                <div class="section-label animate-on-scroll">The Agent Key Problem</div>
+                <h2 class="section-title animate-on-scroll">Simplify agent security with policy-gated authorization</h2>
             </div>
-            <div class="workflow-grid">
-                <div class="workflow-card animate-on-scroll">
-                    <div class="workflow-number">01</div>
-                    <div class="workflow-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 16 16 12 12 8"></polyline>
-                            <line x1="8" y1="12" x2="16" y2="12"></line>
-                        </svg>
-                    </div>
-                    <h4>Agent Request</h4>
-                    <p>AI agent sends a signed transaction request with ECDSA identity proof and incrementing nonce</p>
+            <div class="comparison-grid">
+                <div class="glass-card animate-on-scroll">
+                    <h3 class="card-title text-danger">Without Encliv</h3>
+                    <ul class="check-list">
+                        <li class="danger">Prompt injection drains agent wallets instantly</li>
+                        <li class="danger">Private keys sit in agent process memory</li>
+                        <li class="danger">No spending limits or recipient controls</li>
+                    </ul>
                 </div>
-                <div class="workflow-card animate-on-scroll delay-1">
-                    <div class="workflow-number">02</div>
-                    <div class="workflow-icon active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            <polyline points="9 12 11 14 15 10"></polyline>
-                        </svg>
-                    </div>
-                    <h4>TEE Policy Check</h4>
-                    <p>Inside the sealed enclave: verify caller → read on-chain policy → evaluate spend caps, allowlists, time windows</p>
-                </div>
-                <div class="workflow-card animate-on-scroll delay-2">
-                    <div class="workflow-number">03</div>
-                    <div class="workflow-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="9 12 11 14 15 10"></polyline>
-                        </svg>
-                    </div>
-                    <h4>Sign or Refuse</h4>
-                    <p>Approved requests are signed and broadcast to chain. Violations produce a structured refusal with reason code</p>
+                <div class="glass-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h3 class="card-title text-success">With Encliv</h3>
+                    <ul class="check-list">
+                        <li class="success">Encliv enforces policy before any signature</li>
+                        <li class="success">Keys generated & sealed in TEE hardware</li>
+                        <li class="success">On-chain spend caps and allowlists</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </section>
+
+    <div class="divider"></div>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section">
+        <div class="container text-center">
+            <div class="section-label animate-on-scroll">How Encliv Works</div>
+            <h2 class="section-title animate-on-scroll">Spot violations before they hit chain</h2>
+            <div class="arch-flow">
+                <div class="glass-card flow-card animate-on-scroll">
+                    <div class="flow-number">01</div>
+                    <h3 class="card-title">Agent Request</h3>
+                    <p class="card-desc">AI agent sends a signed transaction request with ECDSA identity proof and incrementing nonce</p>
+                </div>
+                <div class="flow-arrow animate-on-scroll" style="transition-delay: 0.1s;">→</div>
+                <div class="glass-card flow-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="flow-number">02</div>
+                    <h3 class="card-title">TEE Policy Check</h3>
+                    <p class="card-desc">Inside the sealed enclave: verify caller → read on-chain policy → evaluate spend caps, allowlists, time windows</p>
+                </div>
+                <div class="flow-arrow animate-on-scroll" style="transition-delay: 0.3s;">→</div>
+                <div class="glass-card flow-card animate-on-scroll" style="transition-delay: 0.4s;">
+                    <div class="flow-number">03</div>
+                    <h3 class="card-title">Sign or Refuse</h3>
+                    <p class="card-desc">Approved requests are signed and broadcast to chain. Violations produce a structured refusal with reason code</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- Features Section -->
     <section id="features" class="section">
-        <div class="container">
-            <div class="text-center">
-                <div class="section-label animate-on-scroll">• SECURITY FEATURES</div>
-                <h2 class="section-title animate-on-scroll">More than a wallet guard</h2>
-                <p class="section-desc animate-on-scroll">Six layers of protection that work together. Each one eliminates a specific attack vector that traditional agent wallets leave wide open.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            <circle cx="12" cy="16" r="1"></circle>
-                            <path d="M12 17v2"></path>
-                        </svg>
-                    </div>
-                    <h4>In-Enclave Keygen</h4>
-                    <p>Private key generated inside the TEE at boot using hardware entropy. Never imported, exported, logged, or exposed to any external process.</p>
-                </div>
-                <div class="feature-card animate-on-scroll delay-1">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                            <polyline points="14 2 14 8 20 8"></polyline>
-                            <polyline points="9 15 11 17 15 13"></polyline>
-                        </svg>
-                    </div>
-                    <h4>On-Chain Policy</h4>
-                    <p>Spend caps, allowlists, and time windows stored on-chain in EnclivPolicyRegistry. Publicly verifiable and tamper-evident.</p>
-                </div>
-                <div class="feature-card animate-on-scroll delay-2">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                            <path d="M16 11l2 2-2 2"></path>
-                        </svg>
-                    </div>
-                    <h4>Caller Authentication</h4>
-                    <p>ECDSA signature recovery verifies every request comes from the registered agent owner. Impersonation is cryptographically impossible.</p>
-                </div>
-                <div class="feature-card animate-on-scroll">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.27l-3.27 3.27"></path>
-                        </svg>
-                    </div>
-                    <h4>Replay Protection</h4>
-                    <p>Incrementing nonces bound to the enclave address prevent captured requests from being resubmitted — even after TEE restart.</p>
-                </div>
-                <div class="feature-card animate-on-scroll delay-1">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="12" y1="20" x2="12" y2="10"></line>
-                            <line x1="18" y1="20" x2="18" y2="4"></line>
-                            <line x1="6" y1="20" x2="6" y2="16"></line>
-                        </svg>
-                    </div>
-                    <h4>On-Chain Spend Tracking</h4>
-                    <p>Spend counters live on-chain, not in TEE memory. Enclave restarts cannot silently zero your spend counters or bypass caps.</p>
-                </div>
-                <div class="feature-card animate-on-scroll delay-2">
-                    <div class="feature-icon-wrap">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="9" cy="7" r="4"></circle>
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                        </svg>
-                    </div>
-                    <h4>Multi-Agent Registry</h4>
-                    <p>Any agent can register with its own independent policy. Encliv is infrastructure, not a single-use wallet — designed for fleet-scale deployment.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Dashboard Preview / Spot Issues -->
-    <section id="architecture" class="section section-alt">
-        <div class="container">
-            <div class="text-center">
-                <div class="section-label animate-on-scroll">• ARCHITECTURE</div>
-                <h2 class="section-title animate-on-scroll">Spot violations before they hit chain</h2>
-                <p class="section-desc animate-on-scroll">Every transaction request passes through the TEE policy engine. Approved requests get signed and broadcast. Violations are refused with a machine-readable reason code — nothing ambiguous.</p>
-            </div>
-            <div class="arch-visual animate-on-scroll">
-                <div class="arch-node arch-agent-node">
-                    <div class="arch-node-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    </div>
-                    <h4>AI Agent</h4>
-                    <span class="arch-badge">Custos / Any Agent</span>
-                    <div class="arch-detail">Signed Request + Identity Proof</div>
-                </div>
-                <div class="arch-connector">
-                    <div class="arch-connector-line"></div>
-                    <div class="arch-connector-arrow">→</div>
-                </div>
-                <div class="arch-node arch-tee-node">
-                    <div class="arch-node-glow"></div>
-                    <div class="arch-node-icon active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><rect x="9" y="11" width="6" height="6" rx="1"></rect><path d="M12 11V9a2 2 0 1 0-4 0v2"></path></svg>
-                    </div>
-                    <h4>Flare TEE Enclave</h4>
-                    <div class="arch-flow-steps">
-                        <span>Verify Caller</span>
-                        <span class="arch-flow-arrow">→</span>
-                        <span>Read Policy</span>
-                        <span class="arch-flow-arrow">→</span>
-                        <span>Evaluate</span>
-                        <span class="arch-flow-arrow">→</span>
-                        <span class="highlight">Sign / Refuse</span>
-                    </div>
-                </div>
-                <div class="arch-connector">
-                    <div class="arch-connector-line"></div>
-                    <div class="arch-connector-arrow">→</div>
-                </div>
-                <div class="arch-node arch-chain-node">
-                    <div class="arch-node-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-                    </div>
-                    <h4>Coston2 Chain</h4>
-                    <span class="arch-badge">EnclivPolicyRegistry.sol</span>
-                    <div class="arch-detail">Policy Storage + Spend Tracking</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Row -->
-    <section class="section stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-card animate-on-scroll">
-                    <div class="stat-number" data-target="0">0</div>
-                    <div class="stat-label">Keys Exposed</div>
-                    <p class="stat-desc">Private key generated and sealed inside the TEE. Never exported.</p>
-                </div>
-                <div class="stat-card animate-on-scroll delay-1">
-                    <div class="stat-number" data-target="100">0<span class="stat-suffix">%</span></div>
-                    <div class="stat-label">On-Chain Enforcement</div>
-                    <p class="stat-desc">Every policy rule stored and verified on Coston2. Publicly auditable.</p>
-                </div>
-                <div class="stat-card animate-on-scroll delay-2">
-                    <div class="stat-number" data-target="18">0<span class="stat-suffix">/18</span></div>
-                    <div class="stat-label">Tests Passing</div>
-                    <p class="stat-desc">Full coverage: access control, spend caps, time windows, edge cases.</p>
-                </div>
-                <div class="stat-card animate-on-scroll delay-3">
-                    <div class="stat-number" data-target="6">0</div>
-                    <div class="stat-label">Security Layers</div>
-                    <p class="stat-desc">Keygen, policy, auth, replay, spend tracking, multi-agent registry.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Trust Us -->
-    <section class="section">
-        <div class="container">
-            <div class="text-center">
-                <div class="section-label animate-on-scroll">• SECURITY MODEL</div>
-                <h2 class="section-title animate-on-scroll">Why trust Encliv?</h2>
-            </div>
-            <div class="trust-grid">
-                <div class="trust-card animate-on-scroll">
-                    <div class="trust-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
-                    </div>
-                    <h4>Hardware-Sealed Keys</h4>
-                    <p>The private key exists only in process memory inside the TEE. No disk writes, no environment variables, no logs. Even the enclave operator cannot extract it.</p>
-                </div>
-                <div class="trust-card animate-on-scroll delay-1">
-                    <div class="trust-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                    </div>
-                    <h4>On-Chain Audit Trail</h4>
-                    <p>Every policy update, every spend recording, every agent registration emits a Solidity event. Anyone can reconstruct the full authorization history from the chain.</p>
-                </div>
-                <div class="trust-card animate-on-scroll delay-2">
-                    <div class="trust-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                    </div>
-                    <h4>Honest Disclosure</h4>
-                    <p>We document every limitation: simulated TEE mode for hackathon, key loss on restart, RPC-based policy reads, governance threshold pending. No hidden weaknesses.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Integration — Custos -->
-    <section id="integration" class="section section-alt">
-        <div class="container">
-            <div class="text-center">
-                <div class="section-label animate-on-scroll">• FIRST INTEGRATION</div>
-                <h2 class="section-title animate-on-scroll">Custos × Encliv</h2>
-                <p class="section-desc animate-on-scroll">Custos (OKX.AI Agent ID 7327) is the first registered consumer of Encliv — registered through the same registerAgent flow any agent would use.</p>
-            </div>
-            <div class="integration-showcase animate-on-scroll">
-                <div class="integration-left">
-                    <div class="integration-avatar">
-                        <span>C</span>
-                        <div class="integration-status">
-                            <span class="status-dot-live"></span>
-                        </div>
-                    </div>
-                    <div class="integration-meta">
-                        <h3>Custos Agent</h3>
-                        <span class="integration-id">OKX.AI Agent ID 7327</span>
-                    </div>
-                </div>
-                <div class="integration-right">
-                    <div class="integration-detail">
-                        <div class="detail-row">
-                            <span class="detail-label">Spend Cap</span>
-                            <span class="detail-value">10 C2FLR / 24h</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Policy</span>
-                            <span class="detail-value">On-Chain (Coston2)</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Auth</span>
-                            <span class="detail-value">ECDSA + Nonce</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Status</span>
-                            <span class="detail-value status-live">
-                                <span class="status-dot-live"></span> Registered
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="section cta-section">
         <div class="container text-center">
-            <div class="cta-glow"></div>
-            <h2 class="cta-title animate-on-scroll">Secure your AI agents</h2>
-            <p class="cta-desc animate-on-scroll">Stop trusting agent code with raw key access. Enforce policy at the hardware level.</p>
-            <div class="cta-actions animate-on-scroll">
-                <a href="console.html" class="btn btn-primary btn-lg">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                    Open Console
-                </a>
-                <a href="https://coston2-explorer.flare.network/address/0xdE9a752440d0ba74FDC66F647c4a8437CA8C87De#code" target="_blank" class="btn btn-outline btn-lg">View Contract on Explorer</a>
+            <div class="section-label animate-on-scroll">Security Features</div>
+            <h2 class="section-title animate-on-scroll">More than a wallet guard</h2>
+            <div class="features-grid">
+                <div class="glass-card feature-card animate-on-scroll">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="card-title">In-Enclave Keygen</h3>
+                    <p class="card-desc">Private key generated inside the TEE at boot using hardware entropy. Never imported, exported, logged, or exposed to any external process.</p>
+                </div>
+                <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="feature-icon">⛓️</div>
+                    <h3 class="card-title">On-Chain Policy</h3>
+                    <p class="card-desc">Spend caps, allowlists, and time windows stored on-chain in EnclivPolicyRegistry. Publicly verifiable and tamper-evident.</p>
+                </div>
+                <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="feature-icon">🔐</div>
+                    <h3 class="card-title">Caller Authentication</h3>
+                    <p class="card-desc">ECDSA signature recovery verifies every request comes from the registered agent owner. Impersonation is cryptographically impossible.</p>
+                </div>
+                <div class="glass-card feature-card animate-on-scroll">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="card-title">Replay Protection</h3>
+                    <p class="card-desc">Incrementing nonces bound to the enclave address prevent captured requests from being resubmitted — even after TEE restart.</p>
+                </div>
+                <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="card-title">On-Chain Spend Tracking</h3>
+                    <p class="card-desc">Spend counters live on-chain, not in TEE memory. Enclave restarts cannot silently zero your spend counters or bypass caps.</p>
+                </div>
+                <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="card-title">Multi-Agent Registry</h3>
+                    <p class="card-desc">Any agent can register with its own independent policy. Encliv is infrastructure, not a single-use wallet — designed for fleet-scale deployment.</p>
+                </div>
             </div>
         </div>
     </section>
+
+    <div class="divider"></div>
+
+    <!-- Live Demo Section -->
+    <section id="demo" class="section">
+        <div class="container text-center">
+            <div class="section-label animate-on-scroll">See It In Action</div>
+            <h2 class="section-title animate-on-scroll">Custos × Encliv</h2>
+            <p class="section-desc animate-on-scroll">Custos (OKX.AI Agent ID 7327) is the first registered consumer of Encliv — registered through the same registerAgent flow any agent would use.</p>
+            <div class="demo-actions animate-on-scroll">
+                <a href="console.html" class="btn btn-primary btn-lg">Open Console</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer section">
         <div class="container">
-            <div class="footer-top">
+            <div class="footer-content">
                 <div class="footer-brand">
                     <div class="logo">
                         <div class="logo-mark">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
                         </div>
                         <span>Encliv</span>
                     </div>
-                    <p class="footer-tagline">Policy-gated authorization for AI agents on Flare.</p>
+                    <p class="card-desc">Policy-gated authorization for AI agents on Flare.</p>
                 </div>
-                <div class="footer-col">
-                    <h5>Project</h5>
+                <div class="footer-links">
+                    <a href="https://coston2-explorer.flare.network/address/0xdE9a752440d0ba74FDC66F647c4a8437CA8C87De#code" target="_blank">Contract Address</a>
+                    <a href="console.html">Console</a>
                     <a href="#how-it-works">How It Works</a>
-                    <a href="#features">Features</a>
-                    <a href="#architecture">Architecture</a>
-                    <a href="#integration">Integration</a>
-                </div>
-                <div class="footer-col">
-                    <h5>Resources</h5>
-                    <a href="https://github.com" target="_blank">GitHub</a>
-                    <a href="https://coston2-explorer.flare.network" target="_blank">Coston2 Explorer</a>
-                    <a href="https://dev.flare.network/fcc" target="_blank">Flare FCC Docs</a>
-                    <a href="https://faucet.flare.network/coston2" target="_blank">C2FLR Faucet</a>
-                </div>
-                <div class="footer-col">
-                    <h5>Hackathon</h5>
-                    <a href="https://dorahacks.io" target="_blank">Flare Summer Signal</a>
-                    <a href="#">Confidential Compute Track</a>
-                    <a href="#">Deadline: Aug 14, 2026</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <span>&copy; 2026 Encliv. All rights reserved.</span>
-                <span>Built for the Flare Summer Signal Hackathon</span>
+                <p class="card-desc">&copy; 2026 Encliv. All rights reserved.</p>
             </div>
         </div>
     </footer>
