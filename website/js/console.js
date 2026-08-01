@@ -126,9 +126,10 @@ async function callTEE(payload) {
 // ─── Forms Setup ─────────────────────────────────────────────
 
 function setupForms() {
-    // GENERATE
-    $('#btnGenerate').addEventListener('click', async () => {
+    const handleGenerateCall = async () => {
         const btn = $('#btnGenerate');
+        if (!btn || btn.disabled) return;
+
         btn.disabled = true;
         btn.textContent = 'Calling...';
 
@@ -149,6 +150,17 @@ function setupForms() {
 
         btn.disabled = false;
         btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg> Call GENERATE`;
+    };
+
+    // GENERATE
+    $('#btnGenerate')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleGenerateCall();
+    });
+
+    $('#generateForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        handleGenerateCall();
     });
 
     // REGISTER
@@ -368,3 +380,42 @@ function ethToWei(eth) {
     const wei = BigInt(whole) * BigInt('1000000000000000000') + BigInt(frac);
     return wei.toString();
 }
+
+// ─── Keyboard Enter Key Responsiveness ───────────────────────
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        const activePanel = document.querySelector('.panel.active');
+        if (!activePanel) return;
+
+        // If user presses Enter inside an input field, trigger form submission directly
+        if (e.target.tagName === 'INPUT') {
+            const form = e.target.closest('form');
+            if (form) {
+                e.preventDefault();
+                if (typeof form.requestSubmit === 'function') {
+                    form.requestSubmit();
+                } else {
+                    form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+                }
+                return;
+            }
+        }
+
+        // If focused on main active panel background/cards
+        if (e.target === document.body || e.target.classList?.contains('panel') || e.target.classList?.contains('card')) {
+            if (activePanel.id === 'panel-overview') {
+                e.preventDefault();
+                $('#btnGenerate')?.click();
+            } else if (activePanel.id === 'panel-transact') {
+                e.preventDefault();
+                const form = $('#transactForm');
+                if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
+            } else if (activePanel.id === 'panel-register') {
+                e.preventDefault();
+                const form = $('#registerForm');
+                if (form) form.requestSubmit ? form.requestSubmit() : form.dispatchEvent(new Event('submit', { cancelable: true }));
+            }
+        }
+    }
+});
