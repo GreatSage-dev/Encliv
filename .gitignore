@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build artifacts
+contracts/artifacts/
+contracts/cache/
+contracts/typechain-types/
+tee-extension/dist/
+tee-extension/build/
+website/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Coverage
+coverage/
+coverage.json
+
+# Logs
+*.log
+npm-debug.log*
