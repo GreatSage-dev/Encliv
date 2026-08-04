@@ -163,7 +163,7 @@ function setupForms() {
         handleGenerateCall();
     });
 
-    // REGISTER
+    // REGISTER_AGENT
     $('#registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const box = $('#registerResponse');
@@ -172,27 +172,33 @@ function setupForms() {
         const spendCap = $('#regSpendCap').value;
         const timeWindow = $('#regTimeWindow').value;
         const allowlist = $('#regAllowlist').value;
-        const secondApproval = $('#regSecondApproval').checked;
-        const threshold = $('#regThreshold').value;
+        const agentId = hashString(agentName);
 
         addLog('info', `Registering agent "${agentName}" — SpendCap: ${spendCap} C2FLR, Window: ${timeWindow}h`);
 
-        const result = {
-            status: 'REGISTER_PREPARED',
-            agentId: hashString(agentName),
-            policy: {
-                spendCap: `${spendCap} C2FLR`,
+        try {
+            const payload = {
+                instruction: 'REGISTER_AGENT',
+                agentId: agentId,
+                spendCap: spendCap,
                 allowlist: [allowlist],
-                timeWindow: `${timeWindow} hours`,
-                requiresSecondApproval: secondApproval,
-                secondApprovalThreshold: secondApproval ? `${threshold} C2FLR` : '0'
-            },
-            instructions: 'Execute `npm run demo` in `/demo` directory or deploy via Smart Contract to Coston2.'
-        };
-
-        box.textContent = JSON.stringify(result, null, 2);
-        box.classList.add('visible');
+                timeWindow: timeWindow
+            };
+            const result = await callTEE(payload);
+            box.textContent = JSON.stringify(result, null, 2);
+            box.classList.add('visible');
+            addLog('success', `Agent "${agentName}" registered with active policy: ${spendCap} C2FLR cap`);
+        } catch (err) {
+            box.textContent = JSON.stringify({ success: false, error: err.message }, null, 2);
+            box.classList.add('visible');
+            addLog('error', `Registration failed: ${err.message}`);
+        }
     });
+
+    // Client signer wallet for generating valid ECDSA signatures in console
+    const clientWallet = (window.ethers && window.ethers.Wallet)
+        ? window.ethers.Wallet.createRandom()
+        : null;
 
     // CHECK_AND_SIGN
     $('#transactForm').addEventListener('submit', async (e) => {
