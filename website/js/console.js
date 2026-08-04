@@ -276,6 +276,11 @@ function setupScenarios() {
             to: '0x0000000000000000000000000000000000000001',
             amount: '0.5',
         },
+        custos: {
+            agentName: 'custos-okx-7327',
+            to: '0x0000000000000000000000000000000000000001',
+            amount: '1.0',
+        },
         overspend: {
             agentName: 'demo-agent-1',
             to: '0x0000000000000000000000000000000000000001',
