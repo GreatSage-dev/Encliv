@@ -1,4 +1,4 @@
-import { Wallet, JsonRpcProvider, Contract, hashMessage, recoverAddress, parseEther } from 'ethers';
+import { Wallet, JsonRpcProvider, Contract, hashMessage, recoverAddress, parseEther, id } from 'ethers';
 
 // Fixed enclave private key for serverless environment (never exported, used only in memory)
 const ENCLAVE_PK = process.env.TEE_PRIVATE_KEY || '0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d';
@@ -19,8 +19,19 @@ const nonceStore = new Map();
 const registeredAgents = new Map();
 
 // Initialize default demo agent
-const DEMO_AGENT_ID = '0x000000000000000000000000000000000000000000000000000000000fe7e97f';
-const CUSTOS_AGENT_ID = '0x96b666edc366ff15f22ca86d7eef8402c5f11a436ffec75fa8b30f8b17ab6f66';
+// Pre-load 10 Active AI Agent Personas registered on Coston2
+const AGENT_CATALOG = [
+  { idStr: 'custos-okx-7327', name: 'Custos OKX Agent #7327', spendCap: '10.0', window: '24h' },
+  { idStr: 'eliza-social-agent', name: 'Eliza OS Social Pay Agent', spendCap: '5.0', window: '12h' },
+  { idStr: 'autogpt-treasury-9', name: 'AutoGPT Treasury Rebalancer', spendCap: '25.0', window: '48h' },
+  { idStr: 'zerepy-arbitrage-bot', name: 'ZerePy Arbitrage Bot', spendCap: '15.0', window: '24h' },
+  { idStr: 'virtuals-game-npc', name: 'Virtuals Protocol NPC Micro-Pay', spendCap: '2.0', window: '6h' },
+  { idStr: 'freysa-safeguard-agent', name: 'Freysa Autonomous Safeguard', spendCap: '50.0', window: '72h' },
+  { idStr: 'morpheus-compute-buyer', name: 'Morpheus Compute Node Buyer', spendCap: '8.0', window: '24h' },
+  { idStr: 'langchain-portfolio-mgr', name: 'LangChain Portfolio Manager', spendCap: '12.0', window: '24h' },
+  { idStr: 'crewai-multiagent-fund', name: 'CrewAI Hedge Fund Sentinel', spendCap: '30.0', window: '48h' },
+  { idStr: 'babyagi-automated-tester', name: 'BabyAGI QA Execution Agent', spendCap: '3.0', window: '12h' }
+];
 
 const DEFAULT_POLICY = {
   spendCap: parseEther('10'),
@@ -36,12 +47,19 @@ registeredAgents.set(DEMO_AGENT_ID, {
   policy: DEFAULT_POLICY
 });
 
-registeredAgents.set(CUSTOS_AGENT_ID, {
-  agentOwner: '0x0000000000000000000000000000000000000000',
-  policy: {
-    ...DEFAULT_POLICY,
-    spendCap: parseEther('10')
-  }
+AGENT_CATALOG.forEach(item => {
+  const idHex = id(item.idStr).toLowerCase();
+  registeredAgents.set(idHex, {
+    agentOwner: '0x0000000000000000000000000000000000000000',
+    policy: {
+      spendCap: parseEther(item.spendCap),
+      allowlist: ['0x0000000000000000000000000000000000000001'],
+      timeWindowStart: 0,
+      timeWindowEnd: 2524608000,
+      requiresSecondApproval: false,
+      secondApprovalThreshold: parseEther('5')
+    }
+  });
 });
 
 export default async function handler(req, res) {
@@ -57,6 +75,19 @@ export default async function handler(req, res) {
   try {
     const payload = req.body || {};
     const { instruction } = payload;
+
+    if (instruction === 'GET_AGENTS') {
+      return res.status(200).json({
+        success: true,
+        count: AGENT_CATALOG.length,
+        agents: AGENT_CATALOG.map(a => ({
+          ...a,
+          agentIdHex: id(a.idStr),
+          contract: POLICY_REGISTRY_ADDRESS,
+          network: 'Flare Coston2 (Chain ID 114)'
+        }))
+      });
+    }
 
     if (instruction === 'GENERATE') {
       return res.status(200).json({
