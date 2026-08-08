@@ -1,0 +1,102 @@
+[
+  {
+    "agentName": "Custos OKX Trading Agent #7327",
+    "agentIdStr": "custos-okx-agent-7327",
+    "agentIdHex": "0x7bab363a85fafc1dac4682cf6bfc9dca01d45de6f6e0ef67b5e73e12df0662aa",
+    "ownerAddress": "0xAF416744510Ab9A0a30833DDFCBeF6C5D300db4b",
+    "ownerPrivateKey": "0xcad0c2b48866876c2f3cdb4fcae949a64fbf0fa68bcfb3892fc53f239a0e9cac",
+    "spendCapEth": "10.0",
+    "registrationTxHash": "0xcbde2d0e9375de843fdfd23fe1ce3a48bb9a296933a31423dfbd480e0ddfa614",
+    "enclaveSetTxHash": "0x5c252efcbaeaeb3c8714784c77324e4dc24bed94d3ff0ba59abf7a3cb2fc4e68"
+  },
+  {
+    "agentName": "Eliza OS Social Pay Agent",
+    "agentIdStr": "eliza-social-pay-agent",
+    "agentIdHex": "0xecb09dff97930a28f9e96519248efa866f6e1eab28d0c5ef14ef5d92379c57a7",
+    "ownerAddress": "0x9632baD463d21ba43a7A2aBD18a7210eD0917Ab9",
+    "ownerPrivateKey": "0xff8fb15acb7a1eba33df344d39e9d14aba57d9d5417967bdf6278a8f9674a348",
+    "spendCapEth": "5.0",
+    "registrationTxHash": "0xab8ddd79b2ace879744184c3606fa7c02fc530fabfa877d4afbe34093572a637",
+    "enclaveSetTxHash": "0x78b2f5dd83b8ba9a0a8108b3e3f21807fc8d0a1c7690d93b53ca895a1c2272f4"
+  },
+  {
+    "agentName": "AutoGPT DeFi Treasury Manager",
+    "agentIdStr": "autogpt-defi-treasury-v2",
+    "agentIdHex": "0xfac5c4177c8c3140d296eb4612e7e945c66e4dc9ef82a82f84322216d35cf039",
+    "ownerAddress": "0x05c2093906b3b0f2C575d717483fE8d036BA4318",
+    "ownerPrivateKey": "0x583a9ecf9332f8491a1badb4ebc6a642601ec0c4824553469aa6c20f1bc25515",
+    "spendCapEth": "25.0",
+    "registrationTxHash": "0x6be6468a22d00ede990fff88a137e3b5284ec056c56c63b7c2bfb9d7c83c6752",
+    "enclaveSetTxHash": "0x71077bd2e7f544f17b5cee4b10f53b8a2ab5cdf1f9573ca04eb0beec08125f23"
+  },
+  {
+    "agentName": "ZerePy Cross-DEX Arbitrage Bot",
+    "agentIdStr": "zerepy-crossdex-arbitrage",
+    "agentIdHex": "0x573464f96f47442e89f916adced64c6803b146e3449e9d0880ada945a3d59d3c",
+    "ownerAddress": "0x084805134Deac9cFa3655c3709592AbaC78A19CB",
+    "ownerPrivateKey": "0x8e782047482a7353728c0930ddb989bc459d862b54a9f67f3f9200c6a5109664",
+    "spendCapEth": "15.0",
+    "registrationTxHash": "0xe651e757e2b5bf1f682e02d5e585241e2704c28e43587bd9b27e442eca01bf7c",
+    "enclaveSetTxHash": "0x4c6a3f747a6bd33766069a7623d4165546ca0a4b58b1b1f58e2186f70aa9cecb"
+  },
+  {
+    "agentName": "Virtuals Protocol Micro-Payer NPC",
+    "agentIdStr": "virtuals-game-npc-payer",
+    "agentIdHex": "0x11bbdb7c4a4283a3701943d45cc4f5c12cf75f87716827aa82ee11cff85af67d",
+    "ownerAddress": "0x5FCFcE5a4e73b782f7e09D62108bE3910150B91D",
+    "ownerPrivateKey": "0x03b023e4a839989d457453896222358c752b34e9737c36e4752d83b6cf7e8142",
+    "spendCapEth": "2.0",
+    "registrationTxHash": "0x4ed29df2eba86cbd2541a96ef36b6a3fca546fd2d7aefabfa297fd34cea24711",
+    "enclaveSetTxHash": "0xa077ff00d9453198265e8f610876acd407c2f4534acdce02d28dfa5ad12dc46d"
+  },
+  {
+    "agentName": "Freysa Autonomous Safeguard",
+    "agentIdStr": "freysa-autonomous-safeguard",
+    "agentIdHex": "0x12cb5da5e6b7b67e6c7983c6672387230c85fc4fca5b963f43fb3a1d161bde6d",
+    "ownerAddress": "0x260910958eC7168851e2d7A81FFEE5978616cBF0",
+    "ownerPrivateKey": "0xfe020d7afc3499fb5815d190d6842b14f15c4930e2a2a6169c7e393c40e44162",
+    "spendCapEth": "50.0",
+    "registrationTxHash": "0xa15ddbc99f74f752e935d8934730cc42e4725385e2ef708085af1b790fd8a1d6",
+    "enclaveSetTxHash": "0x118ea333e7959fb37974680a6c80a3fcf4d305a7d957fac5f79ae3f3d1366ed4"
+  },
+  {
+    "agentName": "Morpheus AI Compute Buyer",
+    "agentIdStr": "morpheus-ai-compute-buyer",
+    "agentIdHex": "0xf029d207b30cec886c07bcb0488b6a9f12b0275d9056bfc7502c63092d388475",
+    "ownerAddress": "0x3b312c4518AB8d816486AFFD26fcBccc4bf4FF5A",
+    "ownerPrivateKey": "0x64c626fdc6a47b708e83cc72753955a5ec027ec81a18a05b3baa1ee84e669c6e",
+    "spendCapEth": "8.0",
+    "registrationTxHash": "0x1b4e3c818620fde3b9cf1af0aa868bac9e452216e8b2f56e7f2d4b9400bc2ece",
+    "enclaveSetTxHash": "0x13dccd7f715d79ad3ddad99484f08f5489c9cd1fa7666988783c66162c55290b"
+  },
+  {
+    "agentName": "LangChain Portfolio Sentinel",
+    "agentIdStr": "langchain-rebalance-sentinel",
+    "agentIdHex": "0x03d48d4236dafad349295ac6e7b8c142eaf3b5d56ae1009244098997529933fe",
+    "ownerAddress": "0x29e181fa5aDE224f9F0fe4Dfc831d977416B666D",
+    "ownerPrivateKey": "0x310b5efb7e86202f7871d9be0909d4e16ccf31acd6ebc1d64bfe958bb0dee5a6",
+    "spendCapEth": "12.0",
+    "registrationTxHash": "0x702dfaa61d9ad3e05aa41ef4dcae63c4a7fdf6e91c3dd43939d50b0bf5716637",
+    "enclaveSetTxHash": "0xdc122cc4d1323b64a30098c087a05f38357b36a3d57aa72dde49445dbf86858d"
+  },
+  {
+    "agentName": "CrewAI Hedge Fund Manager",
+    "agentIdStr": "crewai-hedgefund-manager",
+    "agentIdHex": "0x68afea32e2433d860ed46e7d41e1ce7cd8aa859a8a4cad2791bfa717952eca01",
+    "ownerAddress": "0xcbbe232FF965b6fD65a295A3534c9739F2A53E3f",
+    "ownerPrivateKey": "0x5121e5951efaf95991ababcc82cb794f9f936d243a109854be17282bdb26a1a3",
+    "spendCapEth": "30.0",
+    "registrationTxHash": "0x310fdbdbd5c547ac1fa79936e594a82578db0dcff2c8c58cb86a4717922adcbc",
+    "enclaveSetTxHash": "0xa0f27f505059a2ba6d5f1463dd7888868a5e0c4c01bb57c36f53358e5c2a7584"
+  },
+  {
+    "agentName": "BabyAGI QA Execution Agent",
+    "agentIdStr": "babyagi-automated-qa-tester",
+    "agentIdHex": "0x73e1b031555851b12425b012b8f8cc52a7caf41fef3a921041bd91c26ed24629",
+    "ownerAddress": "0x49A771da706a0e15F43841A9c1B650a8b48eD44D",
+    "ownerPrivateKey": "0xd1be5c5ba2017947e3a99b1226eb010e21cca4974e639c18cd41c371454cd75f",
+    "spendCapEth": "3.0",
+    "registrationTxHash": "0x7ec8fdd97160477f8092dc73a85dac7d7d2bf4a52a8d6dbea74e10e5940b8bc7",
+    "enclaveSetTxHash": "0x0bcce7ac5294b433d4319b1000679b0069f8b6f364de27ec18cb7874477a5f71"
+  }
+]
