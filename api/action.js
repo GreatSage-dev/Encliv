@@ -161,28 +161,7 @@ export default async function handler(req, res) {
         });
       }
 
-      // 2. Strict Signature Verification (Reject all-zero or invalid placeholder signatures)
-      const isZeroSig = /^0x0+$|^0x0{130}$/i.test(agentSignature) || agentSignature.length < 130;
-      const message = `${agentId}:${to}:${amount}:${calldata || '0x'}:${nonce}:${timestamp}:${ENCLAVE_ADDRESS}`;
-      
-      let recoveredAddress = '';
-      if (!isZeroSig) {
-        try {
-          recoveredAddress = recoverAddress(hashMessage(message), agentSignature);
-        } catch {
-          recoveredAddress = 'invalid';
-        }
-      }
-
-      if (isZeroSig) {
-        return res.status(200).json({
-          success: false,
-          reason: 'INVALID_CALLER',
-          details: 'All-zero or invalid placeholder ECDSA signature is not permitted'
-        });
-      }
-
-      // 3. Strict Sequential Nonce Protection (No gaps allowed)
+      // 2. Strict Sequential Nonce Protection (No gaps allowed)
       const idKey = agentId.toLowerCase();
       const lastNonce = nonceStore.get(idKey);
       const expectedNonce = lastNonce === undefined ? 0 : lastNonce + 1;
@@ -195,7 +174,7 @@ export default async function handler(req, res) {
         });
       }
 
-      // 4. On-Chain Policy Consultation (Query Coston2 contract first, fallback to registered map)
+      // 3. Look up agent policy and owner FIRST (needed to decide signature strictness)
       let activePolicy = null;
       let agentOwner = null;
 
@@ -213,7 +192,7 @@ export default async function handler(req, res) {
           agentOwner = record.agentOwner;
         }
       } catch (e) {
-        // Contract query failed or unformatted agentId — check local registered map
+        // Contract query failed — check local registered map
       }
 
       if (!activePolicy) {
@@ -225,13 +204,32 @@ export default async function handler(req, res) {
       }
 
       if (!activePolicy) {
-        // Default to demo policy for demo agent ID
         activePolicy = DEFAULT_POLICY;
         agentOwner = '0x0000000000000000000000000000000000000000';
       }
 
-      // Verify Caller Ownership if agent has a registered non-zero owner
-      if (agentOwner && agentOwner !== '0x0000000000000000000000000000000000000000') {
+      // 4. Signature Verification — strict for real agents, relaxed for demo/unowned agents
+      const isZeroOwner = !agentOwner || agentOwner === '0x0000000000000000000000000000000000000000';
+
+      if (!isZeroOwner) {
+        // Real agent with a registered owner — require valid ECDSA signature
+        const isZeroSig = /^0x0+$|^0x0{130}$/i.test(agentSignature) || agentSignature.length < 130;
+        if (isZeroSig) {
+          return res.status(200).json({
+            success: false,
+            reason: 'INVALID_CALLER',
+            details: 'All-zero or invalid placeholder ECDSA signature is not permitted'
+          });
+        }
+
+        const message = `${agentId}:${to}:${amount}:${calldata || '0x'}:${nonce}:${timestamp}:${ENCLAVE_ADDRESS}`;
+        let recoveredAddress = '';
+        try {
+          recoveredAddress = recoverAddress(hashMessage(message), agentSignature);
+        } catch {
+          recoveredAddress = 'invalid';
+        }
+
         if (recoveredAddress.toLowerCase() !== agentOwner.toLowerCase()) {
           return res.status(200).json({
             success: false,
