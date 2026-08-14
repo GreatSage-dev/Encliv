@@ -436,6 +436,7 @@ input:checked + .toggle-slider:before {
 }
 .scenario-dot.green { background: var(--success); }
 .scenario-dot.red { background: var(--danger); }
+.scenario-dot.purple { background: var(--primary); }
 
 /* 7. Response Boxes (Success/Refused/Error) */
 .response-box, .result-display {

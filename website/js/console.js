@@ -282,6 +282,16 @@ function setupScenarios() {
             to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
             amount: '1.0',
         },
+        eliza: {
+            agentName: 'eliza-social-agent',
+            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+            amount: '0.8',
+        },
+        fetchai: {
+            agentName: 'fetch-ai-logistics-router',
+            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+            amount: '2.5',
+        },
         overspend: {
             agentName: 'demo-agent-1',
             to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
