@@ -25,7 +25,7 @@ const MAX_ROUNDS = process.argv.find(a => a.startsWith('--rounds='))
   : 100;
 
 const ENCLAVE_ADDRESS = '0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1';
-const ALLOWED_RECIPIENT = '0x0000000000000000000000000000000000000001';
+const ALLOWED_RECIPIENT = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
 
 // ─── Load agent wallets ──────────────────────────────────────────────────
 const walletsPath = path.resolve(__dirname, '../contracts/real-agent-wallets.json');

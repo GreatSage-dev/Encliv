@@ -2,7 +2,7 @@ import { Wallet, JsonRpcProvider, Contract, hashMessage, recoverAddress, parseEt
 
 function agentId(str) { return keccak256(toUtf8Bytes(str)); }
 
-// Fixed enclave private key for serverless environment (never exported, used only in memory)
+// Demo-only enclave key for Coston2 testnet (in production, key is generated inside TEE and never exposed)
 const ENCLAVE_PK = process.env.TEE_PRIVATE_KEY || '0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d';
 const wallet = new Wallet(ENCLAVE_PK);
 const ENCLAVE_ADDRESS = wallet.address;
@@ -39,7 +39,7 @@ const AGENT_CATALOG = [
 
 const DEFAULT_POLICY = {
   spendCap: parseEther('10'),
-  allowlist: ['0x0000000000000000000000000000000000000001'],
+  allowlist: ['0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'],
   timeWindowStart: 0,
   timeWindowEnd: 2524608000,
   requiresSecondApproval: false,
@@ -57,7 +57,7 @@ AGENT_CATALOG.forEach(item => {
     agentOwner: '0x0000000000000000000000000000000000000000',
     policy: {
       spendCap: parseEther(item.spendCap),
-      allowlist: ['0x0000000000000000000000000000000000000001'],
+      allowlist: ['0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'],
       timeWindowStart: 0,
       timeWindowEnd: 2524608000,
       requiresSecondApproval: false,
@@ -286,8 +286,8 @@ export default async function handler(req, res) {
       const signedTx = await wallet.signTransaction(txRequest);
       const txHash = wallet.provider ? (await wallet.populateTransaction(txRequest)).hash : Wallet.fromPhrase ? wallet.address : undefined;
 
-      // Compute deterministic transaction hash from signed transaction
-      const computedHash = hashMessage(signedTx).substring(0, 66);
+      // Compute transaction hash from signed transaction
+      const computedHash = keccak256(signedTx);
 
       return res.status(200).json({
         success: true,

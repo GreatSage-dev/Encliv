@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    ENCLIV CONSOLE — Interactive Logic
-   Connects to the TEE extension at localhost:3001
+   Connects to the TEE enclave API
    ═══════════════════════════════════════════════════════════════ */
 
 // Dynamic TEE URL: tries local TEE first if on localhost, otherwise uses hosted serverless API
@@ -104,7 +104,7 @@ async function checkConnection() {
 
 async function callTEE(payload) {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 4000);
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
     try {
         const res = await fetch(`${TEE_URL}/action`, {
             method: 'POST',
@@ -252,7 +252,7 @@ function setupForms() {
 
                 // Auto-fix nonce if stale (so judges don't get stuck)
                 if (result.reason === 'REPLAY_DETECTED' && result.details) {
-                    const match = result.details.match(/Expected nonce (?:>= )?(\d+)/);
+                    const match = result.details.match(/Expected sequential nonce (\d+)/);
                     if (match) {
                         state.currentNonce = parseInt(match[1]);
                         $('#txNonce').value = state.currentNonce;
@@ -266,11 +266,6 @@ function setupForms() {
         }
     });
 
-    // Clear logs
-    $('#btnClearLogs').addEventListener('click', () => {
-        state.logs = [];
-        $('#logContainer').innerHTML = '<div class="log-empty">No events yet.</div>';
-    });
 }
 
 // ─── Scenarios ──────────────────────────────────────────────
@@ -279,17 +274,17 @@ function setupScenarios() {
     const scenarios = {
         valid: {
             agentName: 'demo-agent-1',
-            to: '0x0000000000000000000000000000000000000001',
+            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
             amount: '0.5',
         },
         custos: {
             agentName: 'custos-okx-7327',
-            to: '0x0000000000000000000000000000000000000001',
+            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
             amount: '1.0',
         },
         overspend: {
             agentName: 'demo-agent-1',
-            to: '0x0000000000000000000000000000000000000001',
+            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
             amount: '15',
         },
         badrecipient: {
