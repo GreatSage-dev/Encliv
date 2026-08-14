@@ -268,53 +268,93 @@ function setupForms() {
 
 }
 
-// ─── Scenarios ──────────────────────────────────────────────
+// ─── Agent Profiles & Scenarios ─────────────────────────────
+
+const AGENT_PROFILES = {
+    custos: {
+        agentName: 'custos-okx-7327',
+        displayName: 'Custos OKX #7327',
+        to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+        spendCap: '10.0',
+        window: '24h',
+        secondApproval: 'No',
+        validAmount: '1.0',
+    },
+    eliza: {
+        agentName: 'eliza-social-agent',
+        displayName: 'Eliza OS Social Pay',
+        to: '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984',
+        spendCap: '5.0',
+        window: '12h',
+        secondApproval: 'No',
+        validAmount: '0.8',
+    },
+    fetchai: {
+        agentName: 'fetch-ai-logistics-router',
+        displayName: 'Fetch.ai Logistics',
+        to: '0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413',
+        spendCap: '7.5',
+        window: '18h',
+        secondApproval: 'No',
+        validAmount: '2.5',
+    }
+};
+
+let selectedAgent = null;
 
 function setupScenarios() {
-    const scenarios = {
-        valid: {
-            agentName: 'demo-agent-1',
-            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-            amount: '0.5',
-        },
-        custos: {
-            agentName: 'custos-okx-7327',
-            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-            amount: '1.0',
-        },
-        eliza: {
-            agentName: 'eliza-social-agent',
-            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-            amount: '0.8',
-        },
-        fetchai: {
-            agentName: 'fetch-ai-logistics-router',
-            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-            amount: '2.5',
-        },
-        overspend: {
-            agentName: 'demo-agent-1',
-            to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
-            amount: '15',
-        },
-        badrecipient: {
-            agentName: 'demo-agent-1',
-            to: '0x000000000000000000000000000000000000dEaD',
-            amount: '0.5',
-        }
-    };
-
-    $$('.scenario-btn').forEach(btn => {
+    // Agent selection buttons
+    $$('.scenario-btn[data-scenario="custos"], .scenario-btn[data-scenario="eliza"], .scenario-btn[data-scenario="fetchai"]').forEach(btn => {
         btn.addEventListener('click', () => {
-            $$('.scenario-btn').forEach(b => b.classList.remove('active'));
+            // Remove active from all agent buttons
+            $$('.scenario-btn[data-scenario="custos"], .scenario-btn[data-scenario="eliza"], .scenario-btn[data-scenario="fetchai"]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const s = scenarios[btn.dataset.scenario];
-            if (s) {
-                $('#txAgentName').value = s.agentName;
-                $('#txTo').value = s.to;
-                $('#txAmount').value = s.amount;
-                $('#txNonce').value = state.currentNonce;
+            const key = btn.dataset.scenario;
+            selectedAgent = AGENT_PROFILES[key];
+
+            // Fill form with agent data
+            $('#txAgentName').value = selectedAgent.agentName;
+            $('#txTo').value = selectedAgent.to;
+            $('#txAmount').value = selectedAgent.validAmount;
+            $('#txNonce').value = state.currentNonce;
+
+            // Show policy card
+            const card = $('#agentPolicyCard');
+            card.style.display = 'block';
+            $('#policySpendCap').textContent = selectedAgent.spendCap + ' C2FLR';
+            $('#policyRecipient').textContent = selectedAgent.to.substring(0, 10) + '...' + selectedAgent.to.substring(38);
+            $('#policyWindow').textContent = selectedAgent.window;
+            $('#policy2ndApproval').textContent = selectedAgent.secondApproval;
+
+            // Reset scenario buttons to "Valid"
+            $$('.scenario-btn[data-scenario="valid"], .scenario-btn[data-scenario="overspend"], .scenario-btn[data-scenario="badrecipient"]').forEach(b => b.classList.remove('active'));
+            $('.scenario-btn[data-scenario="valid"]').classList.add('active');
+        });
+    });
+
+    // Test scenario buttons (adapt to selected agent)
+    $$('.scenario-btn[data-scenario="valid"], .scenario-btn[data-scenario="overspend"], .scenario-btn[data-scenario="badrecipient"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active from scenario buttons only
+            $$('.scenario-btn[data-scenario="valid"], .scenario-btn[data-scenario="overspend"], .scenario-btn[data-scenario="badrecipient"]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const agent = selectedAgent || { agentName: 'demo-agent-1', to: '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', spendCap: '10.0', validAmount: '0.5' };
+            const scenario = btn.dataset.scenario;
+
+            $('#txAgentName').value = agent.agentName;
+            $('#txNonce').value = state.currentNonce;
+
+            if (scenario === 'valid') {
+                $('#txTo').value = agent.to;
+                $('#txAmount').value = agent.validAmount;
+            } else if (scenario === 'overspend') {
+                $('#txTo').value = agent.to;
+                $('#txAmount').value = (parseFloat(agent.spendCap) * 2).toFixed(1);
+            } else if (scenario === 'badrecipient') {
+                $('#txTo').value = '0x000000000000000000000000000000000000dEaD';
+                $('#txAmount').value = agent.validAmount;
             }
         });
     });

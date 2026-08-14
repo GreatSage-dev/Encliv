@@ -210,7 +210,7 @@
 
                 <!-- Registered Agents -->
                 <div class="scenario-bar">
-                    <span class="scenario-label">Agents:</span>
+                    <span class="scenario-label">Agent:</span>
                     <button class="scenario-btn" data-scenario="custos">
                         <span class="scenario-dot purple"></span> Custos #7327
                     </button>
@@ -222,11 +222,33 @@
                     </button>
                 </div>
 
+                <!-- Agent Policy Info (shown when an agent is selected) -->
+                <div class="agent-policy-card" id="agentPolicyCard" style="display: none;">
+                    <div class="policy-grid">
+                        <div class="policy-item">
+                            <span class="policy-label">Spend Cap</span>
+                            <span class="policy-value" id="policySpendCap">—</span>
+                        </div>
+                        <div class="policy-item">
+                            <span class="policy-label">Recipient</span>
+                            <span class="policy-value policy-addr" id="policyRecipient">—</span>
+                        </div>
+                        <div class="policy-item">
+                            <span class="policy-label">Window</span>
+                            <span class="policy-value" id="policyWindow">—</span>
+                        </div>
+                        <div class="policy-item">
+                            <span class="policy-label">2nd Approval</span>
+                            <span class="policy-value" id="policy2ndApproval">—</span>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Test Scenarios -->
                 <div class="scenario-bar">
-                    <span class="scenario-label">Scenarios:</span>
+                    <span class="scenario-label">Test:</span>
                     <button class="scenario-btn active" data-scenario="valid">
-                        <span class="scenario-dot green"></span> Valid Request
+                        <span class="scenario-dot green"></span> Valid
                     </button>
                     <button class="scenario-btn" data-scenario="overspend">
                         <span class="scenario-dot red"></span> Exceed Cap

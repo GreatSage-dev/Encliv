@@ -438,6 +438,49 @@ input:checked + .toggle-slider:before {
 .scenario-dot.red { background: var(--danger); }
 .scenario-dot.purple { background: var(--primary); }
 
+/* Agent Policy Info Card */
+.agent-policy-card {
+    background: rgba(124, 58, 237, 0.08);
+    border: 1px solid rgba(124, 58, 237, 0.25);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    animation: fadeIn 0.2s ease;
+}
+.policy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+.policy-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.policy-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.45);
+}
+.policy-value {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--primary-light, #a78bfa);
+}
+.policy-addr {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 600px) {
+    .policy-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* 7. Response Boxes (Success/Refused/Error) */
 .response-box, .result-display {
   margin-top: 1.5rem;
