@@ -306,11 +306,23 @@ function setupScenarios() {
     // Agent selection buttons
     $$('.scenario-btn[data-scenario="custos"], .scenario-btn[data-scenario="eliza"], .scenario-btn[data-scenario="fetchai"]').forEach(btn => {
         btn.addEventListener('click', () => {
+            const key = btn.dataset.scenario;
+
+            // Toggle: clicking same agent deselects it
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                selectedAgent = null;
+                $('#agentPolicyCard').style.display = 'none';
+                $('#txAgentName').value = 'demo-agent-1';
+                $('#txTo').value = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D';
+                $('#txAmount').value = '0.5';
+                return;
+            }
+
             // Remove active from all agent buttons
             $$('.scenario-btn[data-scenario="custos"], .scenario-btn[data-scenario="eliza"], .scenario-btn[data-scenario="fetchai"]').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            const key = btn.dataset.scenario;
             selectedAgent = AGENT_PROFILES[key];
 
             // Fill form with agent data
