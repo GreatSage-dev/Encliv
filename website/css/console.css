@@ -446,7 +446,7 @@ input:checked + .toggle-slider:before {
     border: 1px solid rgba(124, 58, 237, 0.25);
     border-radius: 12px;
     padding: 10px 16px;
-    margin: 4px 0 6px 0;
+    margin: 6px 0;
     animation: fadeIn 0.2s ease;
 }
 .policy-grid {
