@@ -263,6 +263,17 @@ export default async function handler(req, res) {
         });
       }
 
+      // 7. Time Window Check
+      if (activePolicy.timeWindowStart && activePolicy.timeWindowEnd) {
+        if (nowSec < activePolicy.timeWindowStart || nowSec > activePolicy.timeWindowEnd) {
+          return res.status(200).json({
+            success: false,
+            reason: 'OUTSIDE_TIME_WINDOW',
+            details: `Current time ${nowSec} is outside the agent's active window [${activePolicy.timeWindowStart} - ${activePolicy.timeWindowEnd}]`
+          });
+        }
+      }
+
       // Record valid nonce
       nonceStore.set(idKey, nonce);
 
@@ -287,7 +298,6 @@ export default async function handler(req, res) {
       };
 
       const signedTx = await wallet.signTransaction(txRequest);
-      const txHash = wallet.provider ? (await wallet.populateTransaction(txRequest)).hash : Wallet.fromPhrase ? wallet.address : undefined;
 
       // Compute transaction hash from signed transaction
       const computedHash = keccak256(signedTx);
