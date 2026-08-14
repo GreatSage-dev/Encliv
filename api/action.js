@@ -23,7 +23,7 @@ const registeredAgents = new Map();
 // Initialize default demo agent
 const DEMO_AGENT_ID = '0x000000000000000000000000000000000000000000000000000000000fe7e97f';
 
-// Pre-load 10 Active AI Agent Personas registered on Coston2
+// Pre-load 13 Active AI Agent Personas registered on Coston2
 const AGENT_CATALOG = [
   { idStr: 'custos-okx-7327', name: 'Custos OKX Agent #7327', spendCap: '10.0', window: '24h' },
   { idStr: 'eliza-social-agent', name: 'Eliza OS Social Pay Agent', spendCap: '5.0', window: '12h' },
@@ -32,9 +32,12 @@ const AGENT_CATALOG = [
   { idStr: 'virtuals-game-npc', name: 'Virtuals Protocol NPC Micro-Pay', spendCap: '2.0', window: '6h' },
   { idStr: 'freysa-safeguard-agent', name: 'Freysa Autonomous Safeguard', spendCap: '50.0', window: '72h' },
   { idStr: 'morpheus-compute-buyer', name: 'Morpheus Compute Node Buyer', spendCap: '8.0', window: '24h' },
-  { idStr: 'langchain-portfolio-mgr', name: 'LangChain Portfolio Manager', spendCap: '12.0', window: '24h' },
+  { idStr: 'langchain-portfolio-mgr', name: 'LangChain Portfolio Manager', spendCap: '12.0', window: '36h' },
   { idStr: 'crewai-multiagent-fund', name: 'CrewAI Hedge Fund Sentinel', spendCap: '30.0', window: '48h' },
-  { idStr: 'babyagi-automated-tester', name: 'BabyAGI QA Execution Agent', spendCap: '3.0', window: '12h' }
+  { idStr: 'babyagi-automated-tester', name: 'BabyAGI QA Execution Agent', spendCap: '3.0', window: '12h' },
+  { idStr: 'fetch-ai-logistics-router', name: 'Fetch.ai Logistics Router', spendCap: '7.5', window: '18h' },
+  { idStr: 'ocean-protocol-data-buyer', name: 'Ocean Protocol Data Buyer', spendCap: '20.0', window: '36h' },
+  { idStr: 'superfluid-streaming-agent', name: 'Superfluid Payment Stream', spendCap: '4.0', window: '8h' }
 ];
 
 const DEFAULT_POLICY = {
