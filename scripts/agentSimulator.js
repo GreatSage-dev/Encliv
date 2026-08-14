@@ -84,12 +84,16 @@ async function runAgentInteraction(agent, roundNum) {
 
   let to, amountEth, amountWei;
 
+  const recipientAddr = (Array.isArray(agent.allowlist) && agent.allowlist.length > 0)
+    ? agent.allowlist[0]
+    : ALLOWED_RECIPIENT;
+
   if (scenario === 'VALID') {
-    to = ALLOWED_RECIPIENT;
+    to = recipientAddr;
     amountEth = pickRandomAmount(agent.spendCapEth);
     amountWei = parseEther(amountEth).toString();
   } else if (scenario === 'OVER_CAP') {
-    to = ALLOWED_RECIPIENT;
+    to = recipientAddr;
     amountEth = (parseFloat(agent.spendCapEth) * 2).toFixed(2);
     amountWei = parseEther(amountEth).toString();
   } else {

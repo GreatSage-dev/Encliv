@@ -18,6 +18,7 @@ const REGISTRY_ABI = [
 
 // In-memory stores for serverless warm state
 const nonceStore = new Map();
+const spendStore = new Map();
 const registeredAgents = new Map();
 
 // Initialize default demo agent
@@ -25,19 +26,19 @@ const DEMO_AGENT_ID = '0x0000000000000000000000000000000000000000000000000000000
 
 // Pre-load 13 Active AI Agent Personas registered on Coston2
 const AGENT_CATALOG = [
-  { idStr: 'custos-okx-7327', name: 'Custos OKX Agent #7327', spendCap: '10.0', window: '24h' },
-  { idStr: 'eliza-social-agent', name: 'Eliza OS Social Pay Agent', spendCap: '5.0', window: '12h' },
-  { idStr: 'autogpt-treasury-9', name: 'AutoGPT Treasury Rebalancer', spendCap: '25.0', window: '48h' },
-  { idStr: 'zerepy-arbitrage-bot', name: 'ZerePy Arbitrage Bot', spendCap: '15.0', window: '24h' },
-  { idStr: 'virtuals-game-npc', name: 'Virtuals Protocol NPC Micro-Pay', spendCap: '2.0', window: '6h' },
-  { idStr: 'freysa-safeguard-agent', name: 'Freysa Autonomous Safeguard', spendCap: '50.0', window: '72h' },
-  { idStr: 'morpheus-compute-buyer', name: 'Morpheus Compute Node Buyer', spendCap: '8.0', window: '24h' },
-  { idStr: 'langchain-portfolio-mgr', name: 'LangChain Portfolio Manager', spendCap: '12.0', window: '36h' },
-  { idStr: 'crewai-multiagent-fund', name: 'CrewAI Hedge Fund Sentinel', spendCap: '30.0', window: '48h' },
-  { idStr: 'babyagi-automated-tester', name: 'BabyAGI QA Execution Agent', spendCap: '3.0', window: '12h' },
-  { idStr: 'fetch-ai-logistics-router', name: 'Fetch.ai Logistics Router', spendCap: '7.5', window: '18h' },
-  { idStr: 'ocean-protocol-data-buyer', name: 'Ocean Protocol Data Buyer', spendCap: '20.0', window: '36h' },
-  { idStr: 'superfluid-streaming-agent', name: 'Superfluid Payment Stream', spendCap: '4.0', window: '8h' }
+  { idStr: 'custos-okx-7327', name: 'Custos OKX Agent #7327', spendCap: '10.0', window: '24h', allowlist: ['0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D', '0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F'] },
+  { idStr: 'eliza-social-agent', name: 'Eliza OS Social Pay Agent', spendCap: '5.0', window: '12h', allowlist: ['0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984'] },
+  { idStr: 'autogpt-treasury-9', name: 'AutoGPT Treasury Rebalancer', spendCap: '25.0', window: '48h', allowlist: ['0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643', '0x6B175474E89094C44Da98b954EedeAC495271d0F'] },
+  { idStr: 'zerepy-arbitrage-bot', name: 'ZerePy Arbitrage Bot', spendCap: '15.0', window: '24h', allowlist: ['0xE592427A0AEce92De3Edee1F18E0157C05861564'] },
+  { idStr: 'virtuals-game-npc', name: 'Virtuals Protocol NPC Micro-Pay', spendCap: '2.0', window: '6h', allowlist: ['0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2'] },
+  { idStr: 'freysa-safeguard-agent', name: 'Freysa Autonomous Safeguard', spendCap: '50.0', window: '72h', allowlist: ['0xd9Db270c1B5E3Bd161E8c8503c55cEABeE709552', '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'] },
+  { idStr: 'morpheus-compute-buyer', name: 'Morpheus Compute Node Buyer', spendCap: '8.0', window: '24h', allowlist: ['0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599'] },
+  { idStr: 'langchain-portfolio-mgr', name: 'LangChain Portfolio Manager', spendCap: '12.0', window: '36h', allowlist: ['0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e'] },
+  { idStr: 'crewai-multiagent-fund', name: 'CrewAI Hedge Fund Sentinel', spendCap: '30.0', window: '48h', allowlist: ['0xdAC17F958D2ee523a2206206994597C13D831ec7'] },
+  { idStr: 'babyagi-automated-tester', name: 'BabyAGI QA Execution Agent', spendCap: '3.0', window: '12h', allowlist: ['0x853d955aCEf822Db058eb8505911ED77F175b99e'] },
+  { idStr: 'fetch-ai-logistics-router', name: 'Fetch.ai Logistics Router', spendCap: '7.5', window: '18h', allowlist: ['0xBB9bc244D798123fDe783fCc1C72d3Bb8C189413'] },
+  { idStr: 'ocean-protocol-data-buyer', name: 'Ocean Protocol Data Buyer', spendCap: '20.0', window: '36h', allowlist: ['0x967da4048cD07aB37855c090aAF366e4ce1b9F48'] },
+  { idStr: 'superfluid-streaming-agent', name: 'Superfluid Payment Stream', spendCap: '4.0', window: '8h', allowlist: ['0xbe9895146f7af43049ca1c1ae358b0541ea49704'] }
 ];
 
 const DEFAULT_POLICY = {
@@ -60,7 +61,7 @@ AGENT_CATALOG.forEach(item => {
     agentOwner: '0x0000000000000000000000000000000000000000',
     policy: {
       spendCap: parseEther(item.spendCap),
-      allowlist: ['0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'],
+      allowlist: item.allowlist,
       timeWindowStart: 0,
       timeWindowEnd: 2524608000,
       requiresSecondApproval: false,
@@ -252,14 +253,17 @@ export default async function handler(req, res) {
         });
       }
 
-      // 6. Spend Cap Check against Active Policy
+      // 6. Cumulative Spend Cap Check against Active Policy
       const amountWei = BigInt(amount);
       const capWei = BigInt(activePolicy.spendCap.toString());
-      if (amountWei > capWei) {
+      const previousSpentWei = spendStore.get(idKey) || 0n;
+      const newTotalSpentWei = previousSpentWei + amountWei;
+
+      if (newTotalSpentWei > capWei) {
         return res.status(200).json({
           success: false,
           reason: 'SPEND_CAP_EXCEEDED',
-          details: `Amount (${(Number(amountWei) / 1e18).toFixed(2)} C2FLR) exceeds active policy spend cap (${(Number(capWei) / 1e18).toFixed(2)} C2FLR)`
+          details: `Requested amount (${(Number(amountWei) / 1e18).toFixed(2)} C2FLR) plus current window spend (${(Number(previousSpentWei) / 1e18).toFixed(2)} C2FLR) exceeds active spend cap (${(Number(capWei) / 1e18).toFixed(2)} C2FLR)`
         });
       }
 
@@ -274,8 +278,9 @@ export default async function handler(req, res) {
         }
       }
 
-      // Record valid nonce
+      // Record valid nonce & cumulative spend
       nonceStore.set(idKey, nonce);
+      spendStore.set(idKey, newTotalSpentWei);
 
       // Build & Sign Transaction with live Coston2 Provider to get real EVM nonce
       let evmNonce = 0;

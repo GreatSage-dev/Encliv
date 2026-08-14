@@ -432,6 +432,9 @@ function escapeHtml(str) {
 }
 
 function hashString(str) {
+    if (window.ethers && window.ethers.id) {
+        return window.ethers.id(str);
+    }
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
         const char = str.charCodeAt(i);
