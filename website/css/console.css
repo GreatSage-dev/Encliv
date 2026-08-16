@@ -747,3 +747,97 @@ h1, h2, h3, h4, h5, h6 {
 .log-container::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+
+/* 14. Responsive Media Queries */
+@media (max-width: 1024px) {
+  .console-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1.25rem 1.5rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 4px;
+  }
+  .nav-item {
+    padding: 8px 16px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .nav-item.active {
+    border-left: none;
+    border-bottom: 2px solid var(--primary);
+  }
+  .sidebar-footer {
+    display: none;
+  }
+  .content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    padding: 1rem 1.25rem;
+  }
+  .topbar-divider, .topbar-label {
+    display: none;
+  }
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .scenario-bar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .scenario-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+  .policy-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  .card {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar {
+    padding: 0.75rem 1rem;
+  }
+  .nav-item {
+    font-size: 0.875rem;
+    padding: 6px 12px;
+  }
+  .content {
+    padding: 1rem 0.75rem;
+  }
+  .panel-header h2 {
+    font-size: 1.35rem;
+  }
+  .policy-grid {
+    grid-template-columns: 1fr;
+  }
+  .scenario-label {
+    width: 100%;
+    margin-bottom: 0.25rem;
+  }
+}
+
