@@ -28,13 +28,14 @@ const $$ = (sel) => document.querySelectorAll(sel);
 
 document.addEventListener('DOMContentLoaded', async () => {
     setupNavigation();
+    setupMobileDrawer();
     setupScenarios();
     setupForms();
     setupToggle();
     await checkConnection();
 });
 
-// ─── Navigation ─────────────────────────────────────────────
+// ─── Navigation & Mobile Drawer ─────────────────────────────
 
 function setupNavigation() {
     $$('.nav-item').forEach(btn => {
@@ -45,8 +46,38 @@ function setupNavigation() {
             $$('.panel').forEach(p => p.classList.remove('active'));
             const panelId = `panel-${btn.dataset.panel}`;
             $(`#${panelId}`).classList.add('active');
+
+            // Auto-close mobile drawer on selection
+            closeMobileDrawer();
         });
     });
+}
+
+function setupMobileDrawer() {
+    const toggleBtn = $('#mobileMenuToggle');
+    const overlay = $('#sidebarOverlay');
+    const sidebar = $('#sidebar');
+
+    if (toggleBtn && sidebar && overlay) {
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = sidebar.classList.contains('open');
+            if (isOpen) {
+                closeMobileDrawer();
+            } else {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+        });
+
+        overlay.addEventListener('click', closeMobileDrawer);
+    }
+}
+
+function closeMobileDrawer() {
+    const overlay = $('#sidebarOverlay');
+    const sidebar = $('#sidebar');
+    if (sidebar) sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('active');
 }
 
 // ─── TEE Connection ─────────────────────────────────────────
